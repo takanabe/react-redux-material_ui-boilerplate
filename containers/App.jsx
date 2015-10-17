@@ -1,9 +1,15 @@
-import React from "react";
-import mui, { AppBar, RaisedButton } from 'material-ui';
+import React, { Component, PropTypes } from "react";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Header from '../components/Header';
+import MainSection from '../components/MainSection';
+import * as TodoActions from '../actions/todos';
+
+// import mui, { AppBar, RaisedButton } from 'material-ui';
 
 // let ThemeManager = new mui.Styles.ThemeManager();
 
-export default class App extends React.Component {
+class App extends Component {
   // static get childContextTypes(){
   //   return { muiTheme: React.PropTypes.object };
   // }
@@ -11,14 +17,37 @@ export default class App extends React.Component {
   // getChildContext(){
   //   return { muiTheme: ThemeManager.getCurrentTheme() };
   // }
-
-  render(){
+  //
+  render() {
+    const { todos, actions } = this.props;
     return (
       <div>
-        <h1> Redux Bolerplate(React + Redux + Material UI + ES6 syntacs</h1>
-        <AppBar title="My AppBar" />
-        <RaisedButton label="Default" />
+        <Header addTodo={actions.addTodo} />
+        <MainSection todos={todos} actions={actions} />
       </div>
     );
   }
+}
+
+
+App.propTypes = {
+  todos: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 };
+
+function mapStateToProps(state) {
+  return {
+    todos: state.todos
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(TodoActions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
