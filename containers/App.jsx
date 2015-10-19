@@ -5,19 +5,7 @@ import Header from '../components/Header';
 import MainSection from '../components/MainSection';
 import * as TodoActions from '../actions/todos';
 
-// import mui, { AppBar, RaisedButton } from 'material-ui';
-
-// let ThemeManager = new mui.Styles.ThemeManager();
-
 class App extends Component {
-  // static get childContextTypes(){
-  //   return { muiTheme: React.PropTypes.object };
-  // }
-  //
-  // getChildContext(){
-  //   return { muiTheme: ThemeManager.getCurrentTheme() };
-  // }
-  //
   render() {
     const { todos, actions } = this.props;
     return (
