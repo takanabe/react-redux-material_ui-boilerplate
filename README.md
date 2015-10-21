@@ -43,6 +43,3 @@ To put compiled files into `static` directory, type the following command.
 $ npm run build
 ```
 
-## About version of React
-As of 16 October 2015, Materila UI does not support React v0.14.0 and react-redux v4.0. Because of that reason this boilerplate use old React v0.13.3 and react-redux v3.1.0. It will be updated if Material UI support latest version of React.
-
