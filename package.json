@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/takanabe/react-redux-material_ui-boilerplate.git"
+    "url": ""
   },
   "keywords": [
     "React",
@@ -19,12 +19,12 @@
     "Bable",
     "ES6"
   ],
-  "author": "takanabe",
+  "author": "https://github.com/takanabe",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/takanabe/react-redux-material_ui-boilerplate/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/takanabe/react-redux-material_ui-boilerplate#readme",
+  "homepage": "",
   "devDependencies": {
     "babel-core": "^5.8.25",
     "babel-eslint": "^4.1.3",
