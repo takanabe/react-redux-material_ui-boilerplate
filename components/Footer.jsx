@@ -1,6 +1,15 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
+import { RaisedButton, List, ListItem, Divider, Styles } from 'material-ui';
+
+import InboxIcon from 'material-ui/lib/svg-icons/content/inbox';
+import LoopIcon from 'material-ui/lib/svg-icons/av/loop';
+import ArchiveIcon from 'material-ui/lib/svg-icons/content/archive';
+
+import MyRawTheme from '../src/material_ui_raw_theme_file';
+
+const palette = Styles.ThemeManager.getMuiTheme(MyRawTheme).baseTheme.palette;
 
 const FILTER_TITLES = {
   [SHOW_ALL]: 'All',
@@ -8,28 +17,31 @@ const FILTER_TITLES = {
   [SHOW_COMPLETED]: 'Completed'
 };
 
-class Footer extends Component {
-  renderTodoCount() {
-    const { activeCount } = this.props;
-    const itemWord = activeCount === 1 ? 'item' : 'items';
+const FILTER_ICONS = {
+  [SHOW_ALL]: <InboxIcon />,
+  [SHOW_ACTIVE]: <LoopIcon />,
+  [SHOW_COMPLETED]: <ArchiveIcon />
+};
 
-    return (
-      <span className="todo-count">
-        <strong>{activeCount || 'No'}</strong> {itemWord} left
-      </span>
-    );
+class Footer extends Component {
+  getCountForFilter(filter) {
+    const { activeCount, completedCount } = this.props;
+    if (filter === SHOW_ALL) return activeCount + completedCount;
+    if (filter === SHOW_ACTIVE) return activeCount;
+    if (filter === SHOW_COMPLETED) return completedCount;
   }
 
   renderFilterLink(filter) {
     const title = FILTER_TITLES[filter];
     const { filter: selectedFilter, onShow } = this.props;
-
+    const active = filter === selectedFilter;
+    const count = this.getCountForFilter(filter);
     return (
-      <a className={classnames({ selected: filter === selectedFilter })}
-         style={{ cursor: 'pointer' }}
-         onClick={() => onShow(filter)}>
-        {title}
-      </a>
+      <ListItem key={filter} className={classnames({ selected: active })}
+                style={{color: active ? palette.primary1Color: palette.textColor}}
+                primaryText={title + (count > 0 ? ' (' +  count + ')' : '')}
+                leftIcon={FILTER_ICONS[filter]}
+                onTouchTap={() => onShow(filter)} />
     );
   }
 
@@ -37,10 +49,10 @@ class Footer extends Component {
     const { completedCount, onClearCompleted } = this.props;
     if (completedCount > 0) {
       return (
-        <button className="clear-completed"
-                onClick={onClearCompleted} >
-          Clear completed
-        </button>
+        <RaisedButton className="clear-completed"
+                      primary={true}
+                      label="Clear completed"
+                      onClick={onClearCompleted} />
       );
     }
   }
@@ -48,14 +60,12 @@ class Footer extends Component {
   render() {
     return (
       <footer className="footer">
-        {this.renderTodoCount()}
-        <ul className="filters">
-          {[SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED].map(filter =>
-            <li key={filter}>
-              {this.renderFilterLink(filter)}
-            </li>
-          )}
-        </ul>
+        <Divider style={{marginTop: 10}}/>
+        <List className="filters">
+        {[SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED].map(filter =>
+          this.renderFilterLink(filter)
+        )}
+        </List>
         {this.renderClearButton()}
       </footer>
     );

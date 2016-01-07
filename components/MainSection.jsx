@@ -2,6 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import TodoItem from './TodoItem';
 import Footer from './Footer';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
+import { Checkbox, List } from 'material-ui';
+
+const defaultStyle = {
+  width: 300,
+  marginLeft: 20
+};
 
 const TODO_FILTERS = {
   [SHOW_ALL]: () => true,
@@ -30,10 +36,11 @@ class MainSection extends Component {
     const { todos, actions } = this.props;
     if (todos.length > 0) {
       return (
-        <input className="toggle-all"
-               type="checkbox"
-               checked={completedCount === todos.length}
-               onChange={actions.completeAll} />
+        <Checkbox className="toggle-all"
+                  style={{marginBottom: 10}}
+                  label="Toggle All"
+                  defaultChecked={completedCount === todos.length}
+                  onCheck={actions.completeAll} />
       );
     }
   }
@@ -65,13 +72,13 @@ class MainSection extends Component {
     );
 
     return (
-      <section className="main">
+      <section className="main" style={defaultStyle}>
         {this.renderToggleAll(completedCount)}
-        <ul className="todo-list">
+        <List className="todo-list">
           {filteredTodos.map(todo =>
             <TodoItem key={todo.id} todo={todo} {...actions} />
           )}
-        </ul>
+        </List>
         {this.renderFooter(completedCount)}
       </section>
     );

@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import { TextField } from 'material-ui';
+
+const defaultStyle = {
+  marginLeft: 20
+};
 
 class TodoTextInput extends Component {
   constructor(props, context) {
@@ -9,13 +14,11 @@ class TodoTextInput extends Component {
     };
   }
 
-  handleSubmit(e) {
+  handleEnter(e) {
     const text = e.target.value.trim();
-    if (e.which === 13) {
-      this.props.onSave(text);
-      if (this.props.newTodo) {
-        this.setState({ text: '' });
-      }
+    this.props.onSave(text);
+    if (this.props.newTodo) {
+      this.setState({ text: '' });
     }
   }
 
@@ -31,18 +34,19 @@ class TodoTextInput extends Component {
 
   render() {
     return (
-      <input className={
-        classnames({
-          edit: this.props.editing,
-          'new-todo': this.props.newTodo
-        })}
-        type="text"
-        placeholder={this.props.placeholder}
-        autoFocus="true"
-        value={this.state.text}
-        onBlur={this.handleBlur.bind(this)}
-        onChange={this.handleChange.bind(this)}
-        onKeyDown={this.handleSubmit.bind(this)} />
+      <TextField className={
+                classnames({
+                  edit: this.props.editing,
+                  'new-todo': this.props.newTodo
+                })}
+                style={defaultStyle}
+                type="text"
+                hintText={this.props.placeholder}
+                autoFocus="true"
+                value={this.state.text}
+                onBlur={this.handleBlur.bind(this)}
+                onChange={this.handleChange.bind(this)}
+                onEnterKeyDown={this.handleEnter.bind(this)} />
     );
   }
 }

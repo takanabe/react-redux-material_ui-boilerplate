@@ -1,6 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import TodoTextInput from './TodoTextInput';
+import { ListItem, IconButton, Styles } from 'material-ui';
+import IconMenu from 'material-ui/lib/menus/icon-menu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+import CheckBoxIcon from 'material-ui/lib/svg-icons/toggle/check-box';
+import CheckBoxBlankIcon from 'material-ui/lib/svg-icons/toggle/check-box-outline-blank';
 
 class TodoItem extends Component {
   constructor(props, context) {
@@ -10,7 +17,7 @@ class TodoItem extends Component {
     };
   }
 
-  handleDoubleClick() {
+  handleEdit () {
     this.setState({ editing: true });
   }
 
@@ -24,38 +31,44 @@ class TodoItem extends Component {
   }
 
   render() {
-    const {todo, completeTodo, deleteTodo} = this.props;
+    const { todo, completeTodo, deleteTodo } = this.props;
+
+    const rightIconMenu = (
+      <IconMenu iconButtonElement={
+          <IconButton>
+            <MoreVertIcon color={Styles.Colors.grey400} />
+          </IconButton>
+        }
+      >
+        <MenuItem primaryText="Edit" onTouchTap={this.handleEdit.bind(this)}/>
+        <MenuItem primaryText="Delete" onTouchTap={() => deleteTodo(todo.id)}/>
+      </IconMenu>
+    );
 
     let element;
     if (this.state.editing) {
       element = (
         <TodoTextInput text={todo.text}
-                       editing={this.state.editing}
-                       onSave={(text) => this.handleSave(todo.id, text)} />
+                      editing={this.state.editing}
+                      onSave={(text) => this.handleSave(todo.id, text)} />
       );
     } else {
       element = (
-        <div className="view">
-          <input className="toggle"
-                 type="checkbox"
-                 checked={todo.completed}
-                 onChange={() => completeTodo(todo.id)} />
-          <label onDoubleClick={this.handleDoubleClick.bind(this)}>
-            {todo.text}
-          </label>
-          <button className="destroy"
-                  onClick={() => deleteTodo(todo.id)} />
-        </div>
-      );
+        <ListItem primaryText={todo.text}
+                  onTouchTap={() => completeTodo(todo.id)}
+                  leftIcon={todo.completed ? <CheckBoxIcon /> : <CheckBoxBlankIcon />}
+                  rightIconButton={rightIconMenu}
+        />
+      );      
     }
 
     return (
-      <li className={classnames({
-        completed: todo.completed,
-        editing: this.state.editing
-      })}>
+      <div className={classnames({
+          completed: todo.completed,
+          editing: this.state.editing
+        })}>
         {element}
-      </li>
+      </div>
     );
   }
 }
