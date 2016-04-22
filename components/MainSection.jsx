@@ -3,6 +3,8 @@ import TodoItem from './TodoItem';
 import Footer from './Footer';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 import { Checkbox, List } from 'material-ui';
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import * as MyRawTheme from '../src/material_ui_raw_theme_file';
 
 const defaultStyle = {
   width: 300,
@@ -16,6 +18,13 @@ const TODO_FILTERS = {
 };
 
 class MainSection extends Component {
+  static get childContextTypes() {
+    return { muiTheme: React.PropTypes.object };
+  }
+  getChildContext(){
+    return {  muiTheme: getMuiTheme(MyRawTheme)};
+  }
+
   constructor(props, context) {
     super(props, context);
     this.state = { filter: SHOW_ALL };
