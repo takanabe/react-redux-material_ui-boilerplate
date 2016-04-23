@@ -2,7 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import TodoTextInput from './TodoTextInput';
 
 import mui, {AppBar, Styles} from 'material-ui';
-import MyRawTheme from '../src/material_ui_raw_theme_file';
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import * as MyRawTheme from '../src/material_ui_raw_theme_file';
 
 const defaultStyle = {
   marginLeft: 20
@@ -14,7 +15,7 @@ class Header extends Component {
   }
 
   getChildContext(){
-    return {  muiTheme: Styles.ThemeManager.getMuiTheme(MyRawTheme)};
+    return {  muiTheme: getMuiTheme(MyRawTheme)};
   }
 
   handleSave(text) {
