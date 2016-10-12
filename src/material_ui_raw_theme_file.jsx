@@ -1,9 +1,9 @@
-import Colors from 'material-ui/lib/styles/colors';
-import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
-import Spacing from 'material-ui/lib/styles/spacing';
+import { fade } from 'material-ui/utils/colorManipulator'
+import * as Colors from 'material-ui/styles/colors';
+import { spacing, getMuiTheme } from 'material-ui/styles';
 
-module.exports = {
-  spacing: Spacing,
+const rawBaseTheme = {
+  ...spacing,
   fontFamily: 'Roboto, sans-serif',
   palette: {
     primary1Color: Colors.cyan500,
@@ -16,6 +16,9 @@ module.exports = {
     alternateTextColor: Colors.white,
     canvasColor: Colors.white,
     borderColor: Colors.grey300,
-    disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3)
+    disabledColor: fade(Colors.darkBlack, 0.3)
   }
 };
+
+//Theme must be wrapped in funciton getMuiTheme
+export default getMuiTheme(rawBaseTheme);
