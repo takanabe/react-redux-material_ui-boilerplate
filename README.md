@@ -1,3 +1,5 @@
+test
+test2
 # react-redux-material_ui-boilerplate
 A boilerplate for React + Redux + Material UI + ES6 syntax applications. This boilerplate includes the following tools and frameworks:
 
